@@ -1,0 +1,160 @@
+{% extends "ubablog2/base.html" %}
+{% block alist %}
+		<ul>客户管理test
+    			<li><a href="">功能test1</a></li>
+    			<li><a href="">功能test2</a></li>
+    			<li><a href="">功能test3</a></li>
+    			<li><a href="">功能test4</a></li>
+    		</ul>
+ {% endblock %}
+
+{% block sontab %}
+<script src="/static/js/jquery-2.1.4.min.js" type="text/javascript"></script>
+<style type="text/css">
+	.search{
+		width: 100%;
+		height: 100px;
+	}
+	input{
+		width:100px;
+	}
+</style>
+<div class="search">
+<form action="{% url 'blog2:tenant_search' %}" method="post">
+	{% csrf_token %}
+
+
+    <label for="">公司名：
+        <input type="text" name="tenant_name" value="">
+    </label>
+
+    <label for="">销售人员：
+        <input type="text" name="sale" value="">
+    </label>
+
+        <label for="">账号状态：
+        <input type="text" name="account_status" value="">
+    </label>
+    &nbsp
+    <input type="submit" >
+
+</form>
+</div>
+<table class="table" width="100%" layoutH="138" border="1px">
+		<thead>
+			<tr>
+				<th width="93px"><input type="checkbox" group="ids" class="checkboxCtrl"></th>
+				<th width="206px">公司名</th>
+				<th width="110px">联系人</th>
+				<th width="206px">联系电话</th>
+				<th width="158px" orderby="start_time" onclick="order_tenant_list(this);">合同开始时间</th>
+				<th width="158px" orderby="end_time" onclick="order_tenant_list(this);">合同终止时间</th>
+				<th width="100px">销售人员</th>
+				<th width="100px">公司状态</th>
+				<th width="238px">帐号状态</th>
+				<th width="206px">版本号</th>
+				<th width="206px">操作</th>
+			</tr>
+		</thead>
+		<tbody id="tenant_list">
+		 {%for tenant in tenant_info %}
+
+			<tr>
+			<td width="6%" ><input name="ids" value="${id}" type="checkbox"></td>
+			{% if  tenant.tenant_id %}
+			<td><a href="javascript:void(0);" onclick="jump_to_main_url(3)" >
+			{{tenant.tenant_name}}</a></td>
+			{% endif %}
+			<td>{{tenant.contact}}</td>
+			<td>{{tenant.contact_number}}</td>
+			<td>{{tenant.start_time}}</td>
+			<td>{{tenant.end_time}}</td>
+			<td>{{tenant.tenant_name}}</td>
+			<td>
+			{% if tenant.status == 1 %}正在创建网站{% endif %}
+			{% if tenant.status == 4 %}正在部署统计{% endif %}</td>
+			<td>{{tenant.is_default}}</td>
+			<td>{{tenant.version_id}}</td>
+			<td>
+				<a href="">绑定网站</a>
+				<a href="">编辑公司</a>
+				<a href="">禁用公司</a>
+			</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div class="pagination">
+		<a href="{% url 'blog2:tenant_list' 1 %}" style="color: #000">首页</a>
+
+		
+		{%if tenants.has_previous %}
+		<a href="{% url 'blog2:tenant_list' tenants.previous_page_number %}" id="pre_page" style="color: #000">上一页</a>
+		{%else%}
+		<span style="color: #999">上一页</span>
+		{% endif %}
+
+		<a href="{% url 'blog2:tenant_list' pagenum %}" id="now_page">{{pagenum}}</a>
+		{%if tenants.has_next %}
+		<a href="{% url 'blog2:tenant_list' tenants.next_page_number %}" id="next_page1" style="color: #000">下一页</a>
+				{%else%}
+		<span style="color: #999">下一页</span>
+		{%endif%}
+		<a href="{% url 'blog2:tenant_list' last_page %}" style="color: #000">尾页</a>
+		<span style="color: #000">共{{tenants_num}}条</span>
+		<form action="{% url 'blog2:tenant_list' 9494 %}" method="get">
+			{% csrf_token %}
+			<input type="text" name="page" style="width: 25px" value={{pagenum}}>
+			<input type="submit" name="jump_page" value="跳转" style="width: 40px">
+		</form>
+	</div>
+
+<script type="text/javascript">
+var ajax_search = function(url,ops,callBackFunction){
+	console.log(ops)
+	$.ajax({
+		url : url,
+		type : 'POST',
+		dataType : 'json',
+		contentType : "application/json;charset=utf-8",
+		data : JSON.stringify(ops),
+		success : function(ret_data) {
+			callBackFunction(ret_data);
+		},
+		error : function(ret_data) {
+			callBackFunction(ret_data);
+		}
+	});
+};
+var jump_to_main_url = function(id){
+	var object={};
+	object['id']=id;
+	console.log(id)
+	ajax_search("http://clickplus_crm.clickplus.cn/crm_tenant/jump_to_main_url",object,function(data){
+		handle_login_msg(data);
+
+		if(data.success){
+			console.log(data);
+			alert("使用本功能时，请在使用后退出camp.clickplus.cn系统。\n另：请勿同时登录两个不同公司，会产生未知后果！\n先后登录多个用户，可能会导致数据错乱，解决方案：Ctrl+F5 刷新页面，清除缓存");
+			window.open("http://camp.clickplus.cn");
+		}
+	});
+}
+var handle_login_msg = function(m,s){
+	if((!m.success)&&m.code == -1){
+		if(s){
+			alert(m.data);
+		}
+		window.location.href=login_page;
+	}
+	if((!m.success)&&m.code == 3){
+		if(s){
+			alert(m.msg);
+		}
+		return false;
+	}
+	return true;
+}
+</script>
+{% endblock %}
+

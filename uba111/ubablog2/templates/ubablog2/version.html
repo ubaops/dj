@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .content{
+            width: 1000px;
+            height: 1000px;
+
+        }
+        td{
+            height: 30px;
+            width: 100px;
+        }
+        a{
+            text-decoration: none;
+            color: black;
+        }
+
+    </style>
+</head>
+<body>
+<div class="content">
+    <table border="1" cellspacing="0px">
+        <tr>
+            <td>版本名称</td>
+            <td>选项1</td>
+            <td>选项2</td>
+            <td>选项3</td>
+            <td>选项4</td>
+            <td>选项5</td>
+            <td>选项6</td>
+            <td>选项7</td>
+            <td>选项8</td>
+            <td>选项9</td>
+            <td>选项10</td>
+
+        </tr>
+        {% for version in versions %}
+        <tr>
+            <td>
+                <a href="{% url 'blog2:edit_version' version.id %}">{{version.version_name}}</a>
+                
+            </td>
+            <td>{{version.select1}}</td>
+            <td>{{version.select2}}</td>
+            <td>{{version.select3}}</td>
+            <td>{{version.select4}}</td>
+            <td>{{version.select5}}</td>
+            <td>{{version.select6}}</td>
+            <td>{{version.select7}}</td>
+            <td>{{version.select8}}</td>
+            <td>{{version.select9}}</td>
+            <td>{{version.select10}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <button>
+    <a href="{% url 'blog2:edit_version' 0 %}">新建版本</a>
+    <br>
+    </button>
+    <button>
+    <a href="{% url 'blog2:art_index'  %}">返回主页</a>
+    </button>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,122 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript">
+        var goHome = function() {
+            var login_data = {};
+            login_data.uname = $("#uname")[0].value;
+            login_data.pwd = $("#pwd")[0].value;
+            login_data.remember = $("#remember")[0].checked;
+            $.ajax({
+                url : "/user/login",
+                type : 'POST',
+                dataType : 'json',
+                contentType : "application/json;charset=utf-8",
+                data : JSON.stringify(login_data),
+                success : function(ret_data) {
+                    if (ret_data.success) {
+                        window.location.href="http://clickplus_crm.clickplus.cn/html/index.html";
+                        // window.location.href="http://localhost.clickplus.cn:8888/html/index.html";
+                    } else {
+                        console.log(ret_data.msg);
+                    }
+                },
+                error : function(ret_data) {
+                    alert(ret_data);
+                }
+            });
+        };
+        var listenName = function(e) {
+            if (e.keyCode == 13)
+                $("#pwd").focus();
+        };
+        var listenPwd = function(e) {
+            if (e.keyCode == 13)
+                goHome();
+        };
+        var loadEvent = function() {
+            $("#uname").keyup(listenName);
+            $("#pwd").keyup(listenPwd);
+        }
+    </script>
+    <style type="text/css">
+        input {
+            border: 1px solid;
+            border-color: #CCCCCC;
+        }
+
+        .textbox {
+            width: 300px;
+            height: 40px;
+            font-size: 16pt;
+            color: #000000;
+            border-radius: 5px;
+            text-indent: 8px;
+        }
+
+        .buttonstyle {
+            border: 1px;
+            width: 300px;
+            height: 40px;
+            font-size: 18pt;
+            color: #FFFFFF;
+            border-radius: 5px;
+            background: #3DC6FA;
+        }
+
+        .divmargin {
+            margin: 10px;
+        }
+
+        .logindiv {
+            border: 1px solid;
+            border-color: #BFBFBF;
+            border-radius: 5px;
+            width: 400px;
+            height: 350px;
+            margin-left: auto;
+            margin-right: auto;
+            vertical-align: middle;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        body {
+            TEXT-ALIGN: center;
+        }
+    </style>
+</head>
+<body onload="loadEvent()"
+      style="background-image: url('/imgs/login_background.jpg'); background-repeat: no-repeat; background-size: 100% 100%;">
+<div style="margin-top: 100px;">
+    <img src="/imgs/login_logo.png">
+</div>
+<div class="logindiv">
+    <form action="/user/login" id="login" name="login" method="post">
+        <div>
+            <div>
+                <h1 style="color: #FFFFFF">登&nbsp;录</h1>
+            </div>
+            <div>
+                <hr style="color: #222222; width: 90%;" />
+            </div>
+            <div class="divmargin" style="margin-top: 50px;">
+                <input class="textbox" type="text" id="uname" name="uname"
+                       placeholder="用户名">
+            </div>
+            <div class="divmargin">
+                <input class="textbox" type="password" id="pwd" name="pwd"
+                       placeholder="密  码">
+            </div>
+            <div class="divmargin">
+                <input type="checkbox" id="remember" name="remember"
+                       checked="checked"><label style="color: #FFFFFF;">7天内免登陆</label>
+            </div>
+            <div class="divmargin">
+                <input class="buttonstyle" type="button" id="submit" value="登  录"
+                       onclick="goHome()">
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

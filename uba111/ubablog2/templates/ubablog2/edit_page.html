@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="{% url 'blog2:edit_action' %}" method="post">
+	{% csrf_token %}
+
+	<input type="hidden" name="article_id" value="{{article.id|default:'0'}}">
+    <label for="">标题：
+        <input type="text" name="title" value="{{article.title}}">
+    </label>
+    <br>
+    <label for="">内容：
+        <input type="text" name="content" value="{{article.content}}">
+    </label>
+    <br>
+    <input type="submit" >
+
+</form>
+<a href="{% url 'blog2:art_index' %}">返回主页</a>
+</body>
+</html>

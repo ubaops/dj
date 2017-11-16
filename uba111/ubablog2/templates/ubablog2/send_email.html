@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SendMail</title>
+    <style type="text/css">
+        .to {
+            width:500px;
+        }
+        .title {
+            width:500px;
+        }
+        .content{
+            width: 500px;
+            height: 300px;
+            word-break:break-all;
+
+        }
+        a{
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+发件人: &nbsp;&nbsp;    hongyihui@clickplus.cn
+<form action="{% url 'blog2:send_email' %}" method="post">
+	{% csrf_token %}
+    <label for="">收件人：
+       <select name="to">
+    <option value="lsqtyihui@163.com">lsqtyihui@163.com</option>
+    <option value="455792616@qq.com">455792616@qq.com</option>
+    <option value="hongyihui@clickplus.cn">hongyihui@clickplus.cn</option>
+</select>
+    </label>
+    <label for="">版本选择：
+       <select name="version_name">
+            {% for version in versions %}
+            <option value="{{version.version_name}}">{{version.version_name}}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <br>
+    <label for="">标题： &nbsp;&nbsp;
+         <input type="text" name="subject" value="" class="title">
+    </label>
+    <br>
+    内容：
+    <br>
+    <label for="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<textarea rows="10" cols="30" name="content" class="content"></textarea>
+        <!-- <input type="text" name="content" value="" class="content" style="word-break:break-all"> -->
+    </label>
+    <br>
+    <input type="submit" value="发送" >
+
+</form>
+<br>
+<button>
+<a href="{% url 'blog2:art_index' %}">返回主页</a>
+</button>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<div class="pageContent">
+	<form method="post" action="" class="pageForm" onsubmit="return bind_site_config(this)">
+		<input type="hidden" name="local_id" value="">
+		
+		<div class="pageFormContent nowrap" layouth="56" style="overflow:auto">
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" onclick="site_release()">发布</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" onclick="view_false()">查看报错信息</button></div></div></li>
+				<li><div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div></li>
+			</ul>
+		</div>
+	</form>
+	
+</div>
+
+
+<script type="text/javascript">
+ajax_search("/crm_tenant/get_tenant_info_by_id",{id:local_id},function(data){
+	handle_login_msg(data);
+	getCurrentNav().find('input[name="local_id"]').val(local_id);
+	var p1 = '<div class="site_div"><input type="hidden" name="id" value="';
+	var p2 = '"><input type="hidden" name="crm_tenant_id" value="';
+	var _p2 = '"><dl><dt>网站名：</dt><dd><label>';
+	var p3 = '</label></dd></dl><dl><dt>网站主域名：</dt><dd><label>';
+	var p4 = '</label></dd></dl><dl><dt>site_url：</dt><dd><input type="text" name="site_url" value="';
+	var p5 = '"/></dd></dl><dl><dt>cdn_url：</dt><dd><input type="text" name="cdn_url" value="';
+	var p6 = '"/></dd></dl><dl><dt>personalise_url：</dt><dd><input type="text" name="personalise_url" value="';
+	var p7 = '"/></dd></dl><dl><dt>bucket_name：</dt><dd><input type="text" name="bucket_name" value="';
+	var p8 = '"/></dd></dl></div><div class="divider"></div>';
+	var ss = data.data.sites;
+	for(var i = 0;i<ss.length;i++){
+		var p = p1+ss[i].id+p2+data.data.id+_p2+ss[i].site_name+p3+ss[i].site_main_url+p4+ss[i].site_url+p5+ss[i].cdn_url+p6+ss[i].personalise_url+p7+ss[i].bucket_name+p8;
+		getCurrentNav().find("div.pageFormContent").append(p);
+	}
+});
+var bind_site_config = function(){
+	var object = [];
+	var divs = getCurrentNav().find("div.site_div");
+	for (var i = 0; i < divs.length; i++) {
+		var obj = {};
+		if($(divs[i]).find('input[name="id"]').val()!=""){
+			obj["id"]=$(divs[i]).find('input[name="id"]').val();
+		}
+		obj["crm_tenant_id"]=$(divs[i]).find('input[name="crm_tenant_id"]').val();
+		obj["site_url"]=$(divs[i]).find('input[name="site_url"]').val();
+		obj["cdn_url"]=$(divs[i]).find('input[name="cdn_url"]').val();
+		obj["personalise_url"]=$(divs[i]).find('input[name="personalise_url"]').val();
+		obj["bucket_name"]=$(divs[i]).find('input[name="bucket_name"]').val();
+		object[i]=obj;
+	}
+	ajax_search("/crm_site/config_site",object,function(data){
+		handle_login_msg(data);
+		if(data.success){
+			alert(data.data);
+		}
+	});
+	return false;
+}
+var site_release = function(){
+	var temp_id = getCurrentNav().find('input[name="local_id"]').val();
+	ajax_search("/crm_tenant/config_statistics",{id:temp_id},function(data){
+		handle_login_msg(data);
+		if(data.success){
+			alert(data.data);
+		}
+		reload_tenant_list();
+	});
+}
+var view_false = function(){
+	var temp_id = getCurrentNav().find('input[name="local_id"]').val();
+	ajax_search("/crm_tenant/view_false",{id:temp_id},function(data){
+		handle_login_msg(data);
+		if(data.success){
+			alert(data.data);
+		}
+	});
+}
+</script>

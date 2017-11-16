@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">  
+<head>  
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />  
+    <title>regist</title>  
+        <style type="text/css">
+    	a{
+    		text-decoration: none;
+    		color: black;
+    	}
+    </style> 
+</head>  
+<body>  
+<h1>用户注册</h1>  
+{% if messages %}
+    {% for message in messages %}
+    <p{% if message.tags %} class="{{ message.tags }}" {% endif %} style="padding: 10px">{{ message }}</p>
+    {% endfor %}{% endif %}
+<form method="post" enctype="multipart/form-data" >  
+{% csrf_token %}
+{{uf.as_p}}  
+<input type="submit" value="注册"/> 
+        <button>
+        	<a href="{% url 'blog2:login' %}">登录</a>
+        </button> 
+        <button>
+        	<a href="{% url 'blog2:art_index' %}">返回主页</a>
+        </button>        
+</form>  
+</body>  
+</html>  

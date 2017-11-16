@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">  
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">  
+<head>  
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />  
+    <title>login</title> 
+    <style type="text/css">
+    	*{
+    		padding: 0;
+    		margin: 0;
+    	}
+    	a{
+    		text-decoration: none;
+    		color: black;
+    	}
+    	p{
+    		text-align: center;
+    	}
+    	h1{
+    		text-align: center;
+    	}
+        body {
+            TEXT-ALIGN: center;
+
+        }
+        .bg_img{
+        	position: absolute;
+        	z-index: -1;
+        	width: 100%;
+        	height:100%;
+        	overflow: hidden;
+        	top:0;
+        }
+        .bg_img img{
+        	width:100%;
+        	height:100%;
+
+        }
+    	.textbox {
+            width: 300px;
+            height: 40px;
+            font-size: 16pt;
+            color: #000000;
+            border-radius: 5px;
+            text-indent: 8px;
+        }
+
+        .logindiv {
+            border: 1px solid;
+            border-color: #BFBFBF;
+            border-radius: 5px;
+            width: 400px;
+            height: 350px;
+            margin-left: auto;
+            margin-right: auto;
+            vertical-align: middle;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .login_form p{
+        	width: 300px;
+            height: 40px;
+            font-size: 16pt;
+            color: #000000;
+            border-radius: 5px;
+            text-indent: 8px;
+        }
+        .login_bt {
+            width: 300px;
+            height: 40px;
+            font-size: 16pt;
+            color: white;
+            border-radius: 5px;
+            text-indent: 8px;
+            background: #3DC6FA;
+            line-height: 40px;
+
+        }
+                .divmargin {
+            margin: 15px;
+        }
+    </style> 
+</head>  
+<body>  
+<div class="bg_img">
+	<img src="/static/images/login_background.jpg">
+</div>
+<div style="margin-top: 100px;">
+    <img src="/static/images/login_logo.png">
+</div>
+<div class="logindiv"> 
+{% if messages %}
+    	{% for message in messages %}
+    	<p{% if message.tags %} class="{{ message.tags }}" {% endif %} style="padding: 10px">{{ message }}</p>
+    {% endfor %}{% endif %}
+		<div class="login_box">
+            <div>
+                <h1 style="color: #FFFFFF;margin: 20px">登&nbsp;录</h1>
+            </div>
+            <div>
+                <hr style="color: #222222; width: 90% text-align:center;" />
+            </div>
+            <div class="login_form" style="margin-top: 50px;">
+				<form method="post" enctype="multipart/form-data" action="{% url 'blog2:login_action' %}">  
+					{% csrf_token %}
+					            <div class="divmargin" style="margin-top: 50px;">
+                <input class="textbox" type="text" id="uname" name="username"
+                       placeholder="用户名">
+            </div>
+            <div class="divmargin">
+                <input class="textbox" type="password" id="pwd" name="password"
+                       placeholder="密  码">
+            </div>
+					<input type="submit" value="登录" class="login_bt" />  
+				</form>
+            </div>
+  		</div>
+ </div>
+	
+ 
+</body>  
+</html>  

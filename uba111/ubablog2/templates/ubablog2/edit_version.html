@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .content{
+            width: 1000px;
+            height: 1000px;
+
+        }
+        td{
+            height: 30px;
+            width: 100px;
+        }
+        a{
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+<div class="content">
+    <form action="{% url 'blog2:version_action' %}" method="post">
+        {% csrf_token %}
+
+        <input type="hidden" name="version_id" value="{{version.id|default:'0'}}">
+        <label for="">版本名称：
+            <input type="text" name="version_name" value="{{version.version_name}}">
+        </label>
+        
+        <br>
+        <label for="">选项1：
+            <input type="text" name="select1" value="{{version.select1}}">
+        </label>
+        <br>
+        <label for="">选项2：
+            <input type="text" name="select2" value="{{version.select2}}">
+        </label>
+        <br>
+        <label for="">选项3：
+            <input type="text" name="select3" value="{{version.select3}}">
+        </label>
+        <br>
+        <label for="">选项4：
+            <input type="text" name="select4" value="{{version.select4}}">
+        </label>
+        <br>
+        <label for="">选项5：
+            <input type="text" name="select5" value="{{version.select5}}">
+        </label>
+        <br>
+        <label for="">选项6：
+            <input type="text" name="select6" value="{{version.select6}}">
+        </label>
+        <br>
+        <label for="">选项7：
+            <input type="text" name="select7" value="{{version.select7}}">
+        </label>
+        <br>
+        <label for="">选项8：
+            <input type="text" name="select8" value="{{version.select8}}">
+        </label>
+        <br>
+        <label for="">选项9：
+            <input type="text" name="select9" value="{{version.select9}}">
+        </label>
+        <br>
+        <label for="">选项10：
+            <input type="text" name="select10" value="{{version.select10}}">
+        </label>
+        <br>
+        <input type="submit" >
+
+    </form>
+
+<br>
+<button>
+    <a href="{% url 'blog2:version' %}">返回列表</a>
+</button>
+</div>
+
+</body>
+</html>
